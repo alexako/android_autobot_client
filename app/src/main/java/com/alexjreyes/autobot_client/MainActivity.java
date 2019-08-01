@@ -3,7 +3,12 @@ package com.alexjreyes.autobot_client;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,20 +28,41 @@ public class MainActivity extends FragmentActivity {
     private WebView webView;
 
     // Map Fragment
+    public static FrameLayout mapFragmentContainer;
     public static MapView mMapView;
     public static GoogleMap googleMap;
     public static MarkerOptions markerOptions;
     public static Marker marker;
+    public static ImageButton toggleViewBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mapFragmentContainer = findViewById(R.id.mapFragmentContainer);
+        mapFragmentContainer.setVisibility(mapFragmentContainer.GONE);
+
         // TODO: Replace webview with fragment for toggling
         webView = findViewById(R.id.webView);
         webView.loadUrl("http://autobot.alexjreyes.com/stream");
         webView.setVisibility(webView.VISIBLE);
+
+        toggleViewBtn = findViewById(R.id.toggleViewBtn);
+        toggleViewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(webView.getVisibility() == View.VISIBLE){
+                    webView.setVisibility(View.GONE);
+                    mapFragmentContainer.setVisibility(View.VISIBLE);
+                    toggleViewBtn.setImageResource(R.drawable.youtube);
+                } else {
+                    webView.setVisibility(View.VISIBLE);
+                    mapFragmentContainer.setVisibility(View.GONE);
+                    toggleViewBtn.setImageResource(R.drawable.googlemaps);
+                }
+            }
+        });
 
         showControls();
         showMap();
