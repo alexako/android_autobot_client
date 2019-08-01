@@ -76,7 +76,7 @@ public class MainActivity extends FragmentActivity {
 
         Channel channel = pusher.subscribe("autobot");
 
-        channel.bind("update-gps", new SubscriptionEventListener() {
+        channel.bind("update-location", new SubscriptionEventListener() {
             @Override
             public void onEvent(String channelName, String eventName, final String data) {
 
@@ -86,8 +86,8 @@ public class MainActivity extends FragmentActivity {
                         try {
                             JSONObject obj = new JSONObject(data);
 
-                            double lat = (double) obj.get("latitude");
-                            double lng = (double) obj.get("longitude");
+                            double lat = (double) obj.get("lat");
+                            double lng = (double) obj.get("lng");
                             LatLng location = new LatLng(lat, lng);
 
                             if (marker != null) { marker.remove(); }
